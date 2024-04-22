@@ -5,11 +5,11 @@ done
 of two student objects.
 3. Read student objects from a file named students.txt, which will have
 the number of students followed by their information
-4. Implement Insertion Sort, Selection Sort, Bubble Sort, Shell Sort,
+4. Implement Insertion Sort, Selection Sort, Bubble Sort, Shell Sort, and Quick Sort
 
 still
 
-4.Merge Sort, Quick Sort and Count Sort algorithms.
+4.Merge Sort, and Count Sort algorithms.
 a. Each algorithm should be a separate function implemented using
 templates to allow sorting of different types of data.
 5. Sort the array of students’ objects with each of the previous algorithms.
@@ -185,6 +185,36 @@ void shellSort(vector<T>& arr) {
     }
 }
 
+
+//Quick Sort
+template<typename T>
+void quickSort(vector<T>& arr, int left, int right) {
+    int i = left, j = right;
+    T tmp;
+    T pivot = arr[(left + right) / 2];
+
+    /* partition */
+    while (i <= j) {
+        while (arr[i] < pivot)
+            i++;
+        while (arr[j] > pivot)
+            j--;
+        if (i <= j) {
+            tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+            i++;
+            j--;
+        }
+    };
+    
+    /* recursion */
+    if (left < j)
+        quickSort(arr, left, j);
+    if (i < right)
+        quickSort(arr, i, right);
+
+}
 
 
 
