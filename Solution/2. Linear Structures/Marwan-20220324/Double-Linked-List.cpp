@@ -5,6 +5,7 @@ template <typename T>
 struct Node {
   T data;
   Node<T>* next;
+  Node<T>* prev;
 };
 
 template <typename T>
@@ -44,88 +45,85 @@ template <typename T>
 void LinkedList<T>::insertAtHead(T element) {
   Node<T>* newNode = new Node<T>;
   newNode->data = element;
-  if (size == 0) {
-    head = tail = newNode;
-    newNode->next = nullptr;
-  } else {
-    newNode->next = head;
-    head = newNode;
+  newNode->next = head;
+  newNode->prev = nullptr;
+  if (head != nullptr) {
+    head->prev = newNode;
+  }
+  head = newNode;
+  if (tail == nullptr) {
+    tail = head;
   }
   size++;
 }
 
 template <typename T>
 void LinkedList<T>::insertAtTail(T element) {
-  Node<T>* newNode = new Node<T>;
-  newNode->data = element;
-  if (size == 0) {
-    head = tail = newNode;
-    newNode->next = nullptr;
+  if (isEmpty()) {
+    insertAtHead(element);
   } else {
-    tail->next = newNode;
+    Node<T>* newNode = new Node<T>;
+    newNode->data = element;
     newNode->next = nullptr;
+    newNode->prev = tail;
+    tail->next = newNode;
     tail = newNode;
+    size++;
   }
-  size++;
 }
 
 template <typename T>
 void LinkedList<T>::insertAt(T element, int index) {
   if (index < 0 || index > size) {
     cout << "ERROR! : [Out of the Range] \n";
+  } else if (index == 0) {
+    insertAtHead(element);
+  } else if (index == size) {
+    insertAtTail(element);
   } else {
+    Node<T>* current = head;
+    for (int i = 0; i < index - 1; i++) {
+      current = current->next;
+    }
     Node<T>* newNode = new Node<T>;
     newNode->data = element;
-    if (index == 0) {
-      insertAtHead(element);
-    } else if (index == size) {
-      insertAtTail(element);
-    } else {
-      Node<T>* current = head;
-      for (int i = 1; i < index; i++) {
-        current = current->next;
-      }
-      newNode->next = current->next;
-      current->next = newNode;
-      size++;
-    }
+    newNode->next = current->next;
+    newNode->prev = current;
+    current->next->prev = newNode;
+    current->next = newNode;
+    size++;
   }
 }
 
 template <typename T>
 void LinkedList<T>::removeAtHead() {
-  if (size == 0) {
+  if (isEmpty()) {
     cout << "ERROR! : [The list is Empty]\n";
-  } else if (size == 1) {
-    delete head;
-    tail = head = nullptr;
-    size--;
   } else {
-    Node<T>* current = head;
+    Node<T>* temp = head;
     head = head->next;
-    delete current;
+    if (head != nullptr) {
+      head->prev = nullptr;
+    }
+    delete temp;
     size--;
+    if (isEmpty()) {
+      tail = nullptr;
+    }
   }
 }
 
 template <typename T>
 void LinkedList<T>::removeAtTail() {
-  if (size == 0) {
+  if (isEmpty()) {
     cout << "ERROR! : [The list is Empty]\n";
-  } else if (size == 1) {
-    delete head;
-    tail = head = nullptr;
-    size--;
+  } else if (head == tail) {
+    removeAtHead();
   } else {
-    Node<T>* current = head->next;
-    Node<T>* trailCurrent = head;
-    while (current != tail) {
-      trailCurrent = current;
-      current = current->next;
-    }
-    delete current;
-    trailCurrent->next = nullptr;
-    tail = trailCurrent;
+    Node<T>* temp = tail;
+    tail = tail->prev;
+    tail->next = nullptr;
+    delete temp;
     size--;
   }
 }
@@ -134,31 +132,19 @@ template <typename T>
 void LinkedList<T>::removeAt(int index) {
   if (index < 0 || index >= size) {
     cout << "ERROR! : [Out of the Range]\n";
+  } else if (index == 0) {
+    removeAtHead();
+  } else if (index == size - 1) {
+    removeAtTail();
   } else {
-    Node<T>*current, *trailCurrent;
-    if (index == 0) {
-      current = head;
-      head = head->next;
-      delete current;
-      size--;
-      if (size == 0) {
-        tail = nullptr;
-      }
-    } else {
-      current = head->next;
-      trailCurrent = head;
-      for (int i = 1; i < index; i++) {
-        trailCurrent = current;
-        current = current->next;
-      }
-
-      trailCurrent->next = current->next;
-      if (tail == current) {
-        tail = trailCurrent;
-      }
-      delete current;
-      size--;
+    Node<T>* current = head;
+    for (int i = 0; i < index; i++) {
+      current = current->next;
     }
+    current->prev->next = current->next;
+    current->next->prev = current->prev;
+    delete current;
+    size--;
   }
 }
 
@@ -166,31 +152,30 @@ template <typename T>
 T LinkedList<T>::retrieveAt(int index) {
   Node<T>* current = head;
   int count = 0;
-  while (current != nullptr) {
-    if (count == index) {
-      return current->data;
-    }
-    count++;
+  while (current != nullptr && count != index) {
     current = current->next;
+    count++;
   }
-  return T();
+  if (current != nullptr) {
+    return current->data;
+  } else {
+    cout << "ERROR! : [Out of the Range]\n";
+    return T();
+  }
 }
 
 template <typename T>
 void LinkedList<T>::replaceAt(T element, int index) {
   Node<T>* current = head;
   int count = 0;
-  if (index < 0 || index > size) {
-    cout << "ERROR! : [Out of the Range]" << '\n';
-    return;
-  }
-  while (current != nullptr) {
-    if (count == index) {
-      current->data = element;
-      return;
-    }
-    count++;
+  while (current != nullptr && count != index) {
     current = current->next;
+    count++;
+  }
+  if (current != nullptr) {
+    current->data = element;
+  } else {
+    cout << "ERROR! : [Out of the Range]\n";
   }
 }
 
@@ -210,24 +195,24 @@ template <typename T>
 bool LinkedList<T>::isItemAtEqual(T element, int index) {
   Node<T>* current = head;
   int count = 0;
-  while (current != nullptr) {
-    if (count == index && current->data == element) {
-      return true;
-    }
-    count++;
+  while (current != nullptr && count != index) {
     current = current->next;
+    count++;
   }
-  return false;
+  if (current != nullptr && current->data == element) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 template <typename T>
 void LinkedList<T>::swap(int firstIndex, int secondIndex) {
-  if (firstIndex == secondIndex) {
+  if (firstIndex == secondIndex || firstIndex < 0 || secondIndex < 0) {
+    cout << "ERROR! : [Enter Invalid Index]\n";
     return;
   }
-  if (firstIndex < 0 || secondIndex < 0) {
-    cout << "ERROR! : [Enter Invalid Index]\n";
-  }
+
   Node<T>* prev1 = nullptr;
   Node<T>* curr1 = head;
   int count1 = 0;
@@ -236,6 +221,7 @@ void LinkedList<T>::swap(int firstIndex, int secondIndex) {
     curr1 = curr1->next;
     count1++;
   }
+
   Node<T>* prev2 = nullptr;
   Node<T>* curr2 = head;
   int count2 = 0;
@@ -244,15 +230,17 @@ void LinkedList<T>::swap(int firstIndex, int secondIndex) {
     curr2 = curr2->next;
     count2++;
   }
+
   if (curr1 == nullptr || curr2 == nullptr) {
+    cout << "ERROR! : [Enter Valid Index]\n";
     return;
   }
+
   if (prev1 != nullptr) {
     prev1->next = curr2;
   } else {
     head = curr2;
   }
-
   if (prev2 != nullptr) {
     prev2->next = curr1;
   } else {
@@ -262,11 +250,22 @@ void LinkedList<T>::swap(int firstIndex, int secondIndex) {
   Node<T>* temp = curr1->next;
   curr1->next = curr2->next;
   curr2->next = temp;
+
+  temp = curr1->prev;
+  curr1->prev = curr2->prev;
+  curr2->prev = temp;
+
+  if (curr1->next != nullptr) {
+    curr1->next->prev = curr1;
+  }
+  if (curr2->next != nullptr) {
+    curr2->next->prev = curr2;
+  }
 }
 
 template <typename T>
 bool LinkedList<T>::isEmpty() {
-  return (size == 0);
+  return size == 0;
 }
 
 template <typename T>
@@ -276,13 +275,13 @@ int LinkedList<T>::LinkedListSize() {
 
 template <typename T>
 void LinkedList<T>::clear() {
-  Node<T>* current;
-  while (head != nullptr) {
-    current = head;
-    head = head->next;
+  Node<T>* current = head;
+  while (current != nullptr) {
+    Node<T>* next = current->next;
     delete current;
+    current = next;
   }
-  tail = nullptr;
+  head = tail = nullptr;
   size = 0;
 }
 
