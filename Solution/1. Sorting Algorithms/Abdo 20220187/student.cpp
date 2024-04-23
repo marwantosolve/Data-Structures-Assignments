@@ -71,7 +71,7 @@ private:
     int size;
     string sorting_type;
 public:
-    stu_list(){}
+    stu_list() {}
     stu_list(string file_name) {
         ifstream infile(file_name);
         bool file_exists = infile.is_open();
@@ -103,6 +103,29 @@ public:
             list.push_back(v[i]);
         }
     }
+
+    void OutPut_File(string file_name, string algo, double Dur) {
+        ofstream outfile(file_name , ios::app);
+
+        if (outfile.is_open()) {
+            outfile << "Algorithm: " << algo << endl;
+            outfile << "Runtime: " << Dur << " microseconds" << endl;
+            for (auto element : v)
+
+            {
+                outfile << element.name << endl;
+                outfile << element.id << endl;
+                outfile << element.gpa << endl;
+
+            }
+        }
+        else {
+            cout << "Unable to open file";
+        }
+        outfile << endl << "****************************************************************************" << endl;
+    }
+
+
     void print()
     {
         for (auto element : v) {
@@ -286,25 +309,14 @@ int main()
 {
     stu_list s("student.txt");
     vector <student> va;
-    cout << "test";
+    cout << "tes23t";
     s.list(va);
     cin >> student::sort_by;
     auto start_time = chrono::high_resolution_clock::now();
-    bubbleSort(va);
+     quickSort(va , 0 , va.size()-1);
     auto end_time = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time).count();
-
-    cout << duration << "microseconds" << endl;
-    for (auto element : va)
-
-    {
-        cout << element.name << endl;
-        cout << element.id << endl;
-        cout << element.gpa << endl;
-
-    }
-    //s.print();
+    s.OutPut_File("sorted.txt", "qui", duration);
 
 
 }
-
