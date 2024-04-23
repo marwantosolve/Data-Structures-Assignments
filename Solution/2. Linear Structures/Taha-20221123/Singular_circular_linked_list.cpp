@@ -17,18 +17,18 @@ public:
     }
 };
 template <typename T>
-class Circular_linked_list {
+class Singular_circular_linked_list {
 protected:
     node<T> *head; // Pointer to the head of the list
     int size; // Size of the list
 public:
     // Constructor to initialize an empty list
-    Circular_linked_list() {
+    Singular_circular_linked_list() {
         head = nullptr;
         size = 0;
     }
     // Destructor to deallocate memory
-    ~Circular_linked_list() {
+    ~Singular_circular_linked_list() {
         clear();
     }
     // Function to insert a new node at the head of the list
@@ -292,7 +292,7 @@ public:
 // Main function
 int main() {
     // Sample usage
-    Circular_linked_list<int> list;
+    Singular_circular_linked_list<int> list;
     list.insertAtHead(1);
     list.print();
     list.insertAtHead(3);
