@@ -17,7 +17,6 @@ public:
         prev = nullptr;
     }
 };
-
 template <typename T>
 class Doubly_circular_linked_list {
 protected:
@@ -77,7 +76,7 @@ public:
     void insertAt(T element, int index) {
         if (index < 0 || index > size) {
             // If index is out of range, display error message and return
-            std::cout << "Index out of range." << std::endl;
+            cout << "Index out of range." << endl;
             return;
         }
         if (index == 0) {
@@ -106,7 +105,7 @@ public:
     void removeAtHead() {
         if (head == nullptr) {
             // If the list is empty, display error message
-            std::cerr << "List is empty!" << std::endl;
+            cerr << "List is empty!" << endl;
             return;
         }
         node<T> *temp = head;
@@ -120,7 +119,7 @@ public:
     void removeAtTail() {
         if (tail == nullptr) {
             // If the list is empty, display error message
-            std::cerr << "List is empty!" << std::endl;
+            cerr << "List is empty!" << endl;
             return;
         }
         node<T> *temp = tail;
@@ -134,7 +133,7 @@ public:
     void removeAt(int index) {
         if (index < 0 || index >= size) {
             // If index is out of range, display error message and return
-            std::cout << "Index out of range." << std::endl;
+            cout << "Index out of range." << endl;
             return;
         }
         if (index == 0) {
@@ -161,7 +160,7 @@ public:
     T retrieveAt(int index) {
         if (index < 0 || index >= size) {
             // If index is out of range, display error message and return default value of type T
-            std::cout << "Index out of range." << std::endl;
+            cout << "Index out of range." << endl;
             return T();
         }
         node<T> *temp = head;
@@ -174,7 +173,7 @@ public:
     void replaceAt(T newElement, int index) {
         if (index < 0 || index >= size) {
             // If index is out of range, display error message and return
-            std::cout << "Index out of range." << std::endl;
+            cout << "Index out of range." << endl;
             return;
         }
         node<T> *temp = head;
@@ -201,7 +200,7 @@ public:
     bool isItemAtEqual(T element, int index) {
         if (index < 0 || index >= size) {
             // If index is out of range, display error message and return false
-            std::cout << "Index out of range." << std::endl;
+            cout << "Index out of range." << endl;
             return false;
         }
         // Check if the data at the specified index is equal to the given element
@@ -212,7 +211,7 @@ public:
     void swap(int firstItemIdx, int secondItemIdx) {
         if (firstItemIdx < 0 || firstItemIdx >= size || secondItemIdx < 0 || secondItemIdx >= size) {
             // If either index is out of range, display error message and return
-            std::cout << "Index out of range." << std::endl;
+            cout << "Index out of range." << endl;
             return;
         }
         if (firstItemIdx == secondItemIdx) {
@@ -256,16 +255,16 @@ public:
     void print() {
         if (head == nullptr) {
             // If the list is empty, display message
-            std::cout << "List is empty!" << std::endl;
+            cout << "List is empty!" << endl;
             return;
         }
         // Traverse the list and print each node's data
         node<T> *temp = head;
         for (int i = 0; i < size; i++) {
-            std::cout << temp->data << " ";
+            cout << temp->data << " ";
             temp = temp->next;
         }
-        std::cout << std::endl;
+        cout << endl;
     }
 };
 
@@ -291,10 +290,10 @@ int main() {
     list.print();
     list.replaceAt(9, 3);
     list.print();
-    std::cout << "Size: " << list.linkedListSize() << std::endl;
-    std::cout << "Element at index 1: " << list.retrieveAt(1) << std::endl;
-    std::cout << "Is 3 in the list? " << (list.isExist(3) ? "Yes" : "No") << std::endl;
-    std::cout << "Is element at index 2 equal to 4? " << (list.isItemAtEqual(1, 2) ? "Yes" : "No") << std::endl;
+    cout << "Size: " << list.linkedListSize() << endl;
+    cout << "Element at index 1: " << list.retrieveAt(1) << endl;
+    cout << "Is 3 in the list? " << (list.isExist(3) ? "Yes" : "No") << endl;
+    cout << "Is element at index 2 equal to 4? " << (list.isItemAtEqual(1, 2) ? "Yes" : "No") << endl;
     list.swap(0, 2);
     list.print();
     list.clear();
