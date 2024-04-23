@@ -5,17 +5,16 @@ done
 of two student objects.
 3. Read student objects from a file named students.txt, which will have
 the number of students followed by their information
-4. Implement Insertion Sort, Selection Sort, Bubble Sort, Shell Sort, and Quick Sort
-
-still
-
-4.Merge Sort, and Count Sort algorithms.
+4. Implement Insertion Sort, Selection Sort, Bubble Sort, Shell Sort,mergr sort and Quick Sort4.
 a. Each algorithm should be a separate function implemented using
 templates to allow sorting of different types of data.
 5. Sort the array of students’ objects with each of the previous algorithms.
 a. Sort the data one time by Name and another time by GPA.
-
 6. Calculate the running time of each algorithm for each array.
+
+still
+
+
 7. The output will be two files, SortedByGPA.txt and SortedByName.txt. Each file
 contains:
 a. Algorithm name.
@@ -28,6 +27,8 @@ d. Sorted Student Elements.
 #include <string>
 #include <fstream>
 #include <vector>
+#include <chrono>
+#include <ctime>
 using namespace std;
 
 
@@ -68,8 +69,9 @@ class stu_list {
 private:
     vector <student> v;
     int size;
-    string sorting_type ;
+    string sorting_type;
 public:
+    stu_list(){}
     stu_list(string file_name) {
         ifstream infile(file_name);
         bool file_exists = infile.is_open();
@@ -95,7 +97,7 @@ public:
         }
     }
 
-    void list (vector <student>& list) {
+    void list(vector <student>& list) {
         for (int i = 0; i < size; i++)
         {
             list.push_back(v[i]);
@@ -109,8 +111,8 @@ public:
             cout << element.gpa << endl;
         }
     }
-   
-   
+
+
 };
 
 //sorting functions
@@ -193,9 +195,9 @@ void mergeSort(vector<T>& arr, int const begin, int const end)
     if (begin >= end)
         return; // Base case:
 
-    int mid = begin + (end - begin) / 2; 
-    mergeSort(arr, begin, mid); 
-    mergeSort(arr, mid + 1, end); 
+    int mid = begin + (end - begin) / 2;
+    mergeSort(arr, begin, mid);
+    mergeSort(arr, mid + 1, end);
     merge(arr, begin, mid, end);
 }
 //merg
@@ -243,7 +245,7 @@ void merge(vector<T>& arr, int const left, int const mid, int const right)
         indexOfMergedArray++;
     }
     delete[] leftArray;
-delete[] rightArray;
+    delete[] rightArray;
 }
 
 
@@ -268,7 +270,7 @@ void quickSort(vector<T>& arr, int left, int right) {
             j--;
         }
     };
-    
+
     /* recursion */
     if (left < j)
         quickSort(arr, left, j);
@@ -284,17 +286,25 @@ int main()
 {
     stu_list s("student.txt");
     vector <student> va;
+    cout << "test";
     s.list(va);
     cin >> student::sort_by;
+    auto start_time = chrono::high_resolution_clock::now();
     bubbleSort(va);
+    auto end_time = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time).count();
+
+    cout << duration << "microseconds" << endl;
     for (auto element : va)
+
     {
         cout << element.name << endl;
         cout << element.id << endl;
         cout << element.gpa << endl;
 
-   }
+    }
     //s.print();
-  
+
 
 }
+
