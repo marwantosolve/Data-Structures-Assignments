@@ -186,6 +186,67 @@ void shellSort(vector<T>& arr) {
 }
 
 
+//Merg sort
+template <class T>
+void mergeSort(vector<T>& arr, int const begin, int const end)
+{
+    if (begin >= end)
+        return; // Base case:
+
+    int mid = begin + (end - begin) / 2; 
+    mergeSort(arr, begin, mid); 
+    mergeSort(arr, mid + 1, end); 
+    merge(arr, begin, mid, end);
+}
+//merg
+template <class T>
+void merge(vector<T>& arr, int const left, int const mid, int const right)
+{
+    int const subArrayOneSize = mid - left + 1;
+    int const subArrayTwoSize = right - mid;
+    // Create temp arrays
+    T* leftArray = new T[subArrayOneSize];
+    T* rightArray = new T[subArrayTwoSize];
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (int i = 0; i < subArrayOneSize; i++)
+        leftArray[i] = arr[left + i];
+    for (int j = 0; j < subArrayTwoSize; j++)
+        rightArray[j] = arr[mid + 1 + j];
+
+    int indexOfSubArrayOne = 0, indexOfSubArrayTwo = 0;
+    int indexOfMergedArray = left;
+
+    // Merge the temp arrays back into array[left..right]
+    while (indexOfSubArrayOne < subArrayOneSize
+        && indexOfSubArrayTwo < subArrayTwoSize) {
+        if (leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo]) {
+            arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else {
+            arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+
+    // Copy the remaining elements of left[], if there are any
+    while (indexOfSubArrayOne < subArrayOneSize) {
+        arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of right[], if there are any
+    while (indexOfSubArrayTwo < subArrayTwoSize) {
+        arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
+    delete[] leftArray;
+delete[] rightArray;
+}
+
+
 //Quick Sort
 template<typename T>
 void quickSort(vector<T>& arr, int left, int right) {
