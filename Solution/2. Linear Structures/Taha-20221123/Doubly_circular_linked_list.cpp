@@ -184,6 +184,10 @@ public:
     }
     // Function to check if a given element exists in the list
     bool isExist(T element) {
+        if (head == nullptr||tail == nullptr) {
+            // If the list is empty, return false
+            return false;
+        }
         node<T> *temp = head;
         for (int i = 0; i < size; i++) {
             if (temp->data == element) {
