@@ -26,6 +26,14 @@ public:
         else
             return id < another.id;
     }
+    bool operator <= (const student& another) {
+        if (sort_by == 0)
+            return name <= another.name;
+        else if (sort_by == 1)
+            return gpa <= another.gpa;
+        else
+            return id <= another.id;
+    }
     bool operator > (const student& another) {
         if (sort_by == 0)
             return name > another.name;
@@ -33,6 +41,14 @@ public:
             return gpa > another.gpa;
         else
             return id > another.id;
+    }
+    bool operator >= (const student& another) {
+        if (sort_by == 0)
+            return name >= another.name;
+        else if (sort_by == 1)
+            return gpa >= another.gpa;
+        else
+            return id >= another.id;
     }
 
 };
@@ -178,6 +194,65 @@ void shellSort(vector<T>& arr) {
     }
 }
 
+//Merg sort
+template <class T>
+void mergeSort(vector<T>& arr, int const begin, int const end)
+{
+    if (begin >= end)
+        return; // Base case:
+
+    int mid = begin + (end - begin) / 2;
+    mergeSort(arr, begin, mid);
+    mergeSort(arr, mid + 1, end);
+    merge(arr, begin, mid, end);
+}
+//merg
+template <class T>
+void merge(vector<T>& arr, int const left, int const mid, int const right)
+{
+    int const subArrayOneSize = mid - left + 1;
+    int const subArrayTwoSize = right - mid;
+    // Create temp arrays
+    T* leftArray = new T[subArrayOneSize];
+    T* rightArray = new T[subArrayTwoSize];
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (int i = 0; i < subArrayOneSize; i++)
+        leftArray[i] = arr[left + i];
+    for (int j = 0; j < subArrayTwoSize; j++)
+        rightArray[j] = arr[mid + 1 + j];
+
+    int indexOfSubArrayOne = 0, indexOfSubArrayTwo = 0;
+    int indexOfMergedArray = left;
+
+    // Merge the temp arrays back into array[left..right]
+    while (indexOfSubArrayOne < subArrayOneSize
+        && indexOfSubArrayTwo < subArrayTwoSize) {
+        if (leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo]) {
+            arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else {
+            arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+
+    // Copy the remaining elements of left[], if there are any
+    while (indexOfSubArrayOne < subArrayOneSize) {
+        arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of right[], if there are any
+    while (indexOfSubArrayTwo < subArrayTwoSize) {
+        arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
+    delete[] leftArray;
+    delete[] rightArray;
+}
 
 //Quick Sort
 template<typename T>
@@ -250,6 +325,14 @@ void Sort(stu_list s, vector <student> va, int i , string output_file) {
     s.OutPut_File(output_file, "Shell Sort", duration, va);
     s.clear(va);
     s.list(va);
+    //////////////////////////////////////////////////////Merge Sort///////////////////////////////////////////
+    start_time = chrono::high_resolution_clock::now();
+    mergeSort(va, 0, va.size() - 1);
+    end_time = chrono::high_resolution_clock::now();
+    duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time).count();
+    s.OutPut_File(output_file, "Merge Sort", duration, va);
+    s.clear(va);
+    s.list(va);
    /////////////////////////////////////////////////////Quick Sort///////////////////////////////////////////
     start_time = chrono::high_resolution_clock::now();
     quickSort(va, 0, va.size() - 1); 
@@ -264,10 +347,11 @@ void Sort(stu_list s, vector <student> va, int i , string output_file) {
 
 int main()
 {
-    cout << "done1";
+    cout << "done21222222222";
     stu_list s("student.txt");
     vector <student> va;
     s.list(va);
+    //imortant note 0 --> sort by name  1--> sort by Gpa  another --> sort by Id    based on   Operator < , <= , > , >= Overloading
     Sort(s, va,0,"sorted_by_name.txt");
     Sort(s, va, 1, "sorted_by_GPA.txt");
     Sort(s, va, 2, "sorted_by_ID.txt");
