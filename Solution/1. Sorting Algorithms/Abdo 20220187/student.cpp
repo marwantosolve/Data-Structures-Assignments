@@ -9,11 +9,11 @@ using namespace std;
 
 //class student contain all data foe each student
 class student
-{
-public:
+{private:
     string id;
     string name;
     double gpa;
+public:
     static int sort_by;
     student() : id("NULL"), name("NULL"), gpa(0.0) {}
     student(string ID, string NAME, double GPA) : id(ID), name(NAME), gpa(GPA) {}
@@ -51,6 +51,7 @@ public:
             return id >= another.id;
     }
 
+    friend class stu_list;
 };
 
 
@@ -347,7 +348,7 @@ void Sort(stu_list s, vector <student> va, int i , string output_file) {
 
 int main()
 {
-    cout << "done21222222222";
+    cout << "abdo";
     stu_list s("student.txt");
     vector <student> va;
     s.list(va);
