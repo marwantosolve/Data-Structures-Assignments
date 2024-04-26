@@ -1,11 +1,7 @@
-#include <chrono>
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
+#include <bits/stdc++.h>
 using namespace std;
 
-// class student contain all data foe each student
+// contains all data for each student
 class student {
  private:
   string id;
@@ -53,8 +49,7 @@ class student {
   friend class stu_list;
 };
 
-// class stu_list read data from file and put it in a vector then write in a new
-// file
+// reads data from file and put it in a vector then write in a new file
 class stu_list {
  private:
   vector<student> v;
@@ -123,7 +118,7 @@ class stu_list {
 
 // sorting functions
 
-// insertion Sort
+// Insertion Sort
 template <typename T>
 void insertionSort(vector<T>& arr) {
   int n = arr.size();
@@ -138,7 +133,7 @@ void insertionSort(vector<T>& arr) {
   }
 }
 
-// selectionSort
+// Selection Sort
 template <typename T>
 void selectionSort(vector<T>& arr) {
   int n = arr.size();
@@ -155,7 +150,7 @@ void selectionSort(vector<T>& arr) {
   }
 }
 
-// bubble Sort
+// Bubble Sort
 template <typename T>
 void bubbleSort(vector<T>& arr) {
   int n = arr.size();
@@ -168,7 +163,7 @@ void bubbleSort(vector<T>& arr) {
   }
 }
 
-// shellSort
+// Shell Sort
 template <typename T>
 void shellSort(vector<T>& arr) {
   int n = arr.size();
@@ -187,17 +182,7 @@ void shellSort(vector<T>& arr) {
   }
 }
 
-// Merg sort
-template <class T>
-void mergeSort(vector<T>& arr, int const begin, int const end) {
-  if (begin >= end) return;  // Base case:
-
-  int mid = begin + (end - begin) / 2;
-  mergeSort(arr, begin, mid);
-  mergeSort(arr, mid + 1, end);
-  merge(arr, begin, mid, end);
-}
-// merg
+// Merge
 template <class T>
 void merge(vector<T>& arr, int const left, int const mid, int const right) {
   int const subArrayOneSize = mid - left + 1;
@@ -241,6 +226,17 @@ void merge(vector<T>& arr, int const left, int const mid, int const right) {
   delete[] rightArray;
 }
 
+// Merge Sort
+template <class T>
+void mergeSort(vector<T>& arr, int const begin, int const end) {
+  if (begin >= end) return;  // Base case:
+
+  int mid = begin + (end - begin) / 2;
+  mergeSort(arr, begin, mid);
+  mergeSort(arr, mid + 1, end);
+  merge(arr, begin, mid, end);
+}
+
 // Quick Sort
 template <typename T>
 void quickSort(vector<T>& arr, int left, int right) {
@@ -276,7 +272,7 @@ void Sort(stu_list s, vector<student> va, int i, string output_file) {
   auto duration =
       chrono::duration_cast<chrono::microseconds>(end_time - start_time)
           .count();
-  ////////////////////////////////////////////////insertionSort///////////////////////////////////////////////
+  // insertionSort
   start_time = chrono::high_resolution_clock::now();
   insertionSort(va);
   end_time = chrono::high_resolution_clock::now();
@@ -285,8 +281,7 @@ void Sort(stu_list s, vector<student> va, int i, string output_file) {
   s.OutPut_File(output_file, "Insertion Sort", duration, va);
   s.clear(va);
   s.list(va);
-  /////////////////////////////////////////////////////Selection
-  ///Sort//////////////////////////////////////////
+  // selectionSort
   start_time = chrono::high_resolution_clock::now();
   selectionSort(va);
   end_time = chrono::high_resolution_clock::now();
@@ -295,8 +290,7 @@ void Sort(stu_list s, vector<student> va, int i, string output_file) {
   s.OutPut_File(output_file, "Selection Sort", duration, va);
   s.clear(va);
   s.list(va);
-  //////////////////////////////////////////////////Bubble
-  ///Sort/////////////////////////////////////////////
+  // BubbleSort
   start_time = chrono::high_resolution_clock::now();
   bubbleSort(va);
   end_time = chrono::high_resolution_clock::now();
@@ -305,7 +299,7 @@ void Sort(stu_list s, vector<student> va, int i, string output_file) {
   s.OutPut_File(output_file, "Bubble Sort", duration, va);
   s.clear(va);
   s.list(va);
-  /////////////////////////////////////////////////ShellSort//////////////////////////////////////////////
+  /// ShellSort
   start_time = chrono::high_resolution_clock::now();
   shellSort(va);
   end_time = chrono::high_resolution_clock::now();
@@ -314,8 +308,7 @@ void Sort(stu_list s, vector<student> va, int i, string output_file) {
   s.OutPut_File(output_file, "Shell Sort", duration, va);
   s.clear(va);
   s.list(va);
-  //////////////////////////////////////////////////////Merge
-  ///Sort///////////////////////////////////////////
+  // MergeSort
   start_time = chrono::high_resolution_clock::now();
   mergeSort(va, 0, va.size() - 1);
   end_time = chrono::high_resolution_clock::now();
@@ -324,8 +317,7 @@ void Sort(stu_list s, vector<student> va, int i, string output_file) {
   s.OutPut_File(output_file, "Merge Sort", duration, va);
   s.clear(va);
   s.list(va);
-  /////////////////////////////////////////////////////Quick
-  ///Sort///////////////////////////////////////////
+  // QuickSort
   start_time = chrono::high_resolution_clock::now();
   quickSort(va, 0, va.size() - 1);
   end_time = chrono::high_resolution_clock::now();
@@ -341,8 +333,10 @@ int main() {
   stu_list s("student.txt");
   vector<student> va;
   s.list(va);
-  // imortant note 0 --> sort by name  1--> sort by Gpa  another --> sort by Id
-  // based on   Operator < , <= , > , >= Overloading
+  // Imortant Note:
+  // 0 : sort by Name
+  // 1 : sort by GPA
+  // else: sort by Id based on Operator < , <= , > , >= Overloading
   Sort(s, va, 0, "sorted_by_name.txt");
   Sort(s, va, 1, "sorted_by_GPA.txt");
   Sort(s, va, 2, "sorted_by_ID.txt");
