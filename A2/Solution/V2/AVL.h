@@ -34,9 +34,7 @@ class AVL {
   AVL() : root(nullptr) {}
 
   void insert(const Item& val) { root = insert(root, val); }
-  void remove(const std::string& itemName) {
-        root = remove(root, itemName);
-    }
+  void remove(const std::string& itemName) { root = remove(root, itemName); }
 
   void inOrder() const { inOrder(root); }
 };

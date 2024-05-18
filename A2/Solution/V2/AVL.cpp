@@ -48,66 +48,60 @@ AVLNode* AVL::insert(AVLNode* node, const Item& val) {
   return node;
 }
 
-
 AVLNode* AVL::remove(AVLNode* node, const std::string& itemName) {
-    if (node == nullptr)
-        return node;
+  if (node == nullptr) return node;
 
-    if (itemName < node->data.itemname)
-        node->left = remove(node->left, itemName);
-    else if (itemName > node->data.itemname)
-        node->right = remove(node->right, itemName);
-    else {
-        if (node->left == nullptr || node->right == nullptr) {
-            AVLNode* temp = node->left ? node->left : node->right;
+  if (itemName < node->data.itemname)
+    node->left = remove(node->left, itemName);
+  else if (itemName > node->data.itemname)
+    node->right = remove(node->right, itemName);
+  else {
+    if (node->left == nullptr || node->right == nullptr) {
+      AVLNode* temp = node->left ? node->left : node->right;
 
-            if (temp == nullptr) {
-                temp = node;
-                node = nullptr;
-            } else
-                *node = *temp;
+      if (temp == nullptr) {
+        temp = node;
+        node = nullptr;
+      } else
+        *node = *temp;
 
-            delete temp;
-        } else {
-            AVLNode* temp = minValueNode(node->right);
+      delete temp;
+    } else {
+      AVLNode* temp = minValueNode(node->right);
 
-            node->data = temp->data;
+      node->data = temp->data;
 
-            node->right = remove(node->right, temp->data.itemname);
-        }
+      node->right = remove(node->right, temp->data.itemname);
     }
+  }
 
-    if (node == nullptr)
-        return node;
+  if (node == nullptr) return node;
 
-    node->height = 1 + std::max(height(node->left), height(node->right));
+  node->height = 1 + std::max(height(node->left), height(node->right));
 
-    int balance = getBalance(node);
+  int balance = getBalance(node);
 
-    if (balance > 1 && getBalance(node->left) >= 0)
-        return rightRotate(node);
+  if (balance > 1 && getBalance(node->left) >= 0) return rightRotate(node);
 
-    if (balance > 1 && getBalance(node->left) < 0) {
-        node->left = leftRotate(node->left);
-        return rightRotate(node);
-    }
+  if (balance > 1 && getBalance(node->left) < 0) {
+    node->left = leftRotate(node->left);
+    return rightRotate(node);
+  }
 
-    if (balance < -1 && getBalance(node->right) <= 0)
-        return leftRotate(node);
+  if (balance < -1 && getBalance(node->right) <= 0) return leftRotate(node);
 
-    if (balance < -1 && getBalance(node->right) > 0) {
-        node->right = rightRotate(node->right);
-        return leftRotate(node);
-    }
+  if (balance < -1 && getBalance(node->right) > 0) {
+    node->right = rightRotate(node->right);
+    return leftRotate(node);
+  }
 
-    return node;
+  return node;
 }
 
 AVLNode* AVL::minValueNode(AVLNode* node) {
-    AVLNode* current = node;
-    while (current->left != nullptr)
-        current = current->left;
-    return current;
+  AVLNode* current = node;
+  while (current->left != nullptr) current = current->left;
+  return current;
 }
 
 void AVL::inOrder(AVLNode* node) const {
