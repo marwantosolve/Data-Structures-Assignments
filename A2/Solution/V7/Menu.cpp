@@ -9,7 +9,7 @@ void displayMenu()
     cout << "2. Min-Heap\n";
     cout << "3. Max-Heap\n";
     cout << "4. AVL Tree\n";
-    cout << "5. Exit\n";
+    cout << "0. Exit\n";
     cout << "========================\n";
     cout << "Enter your choice: ";
 }
@@ -31,7 +31,7 @@ void displayOperationsMenu()
     cout << "5. Display all the items sorted by their name descending\n";
     cout << "6. Display all the items sorted by their prices ascending\n";
     cout << "7. Display all the items sorted by their prices descending\n";
-    cout << "8. Back to main menu\n";
+    cout << "0. Back to main menu\n";
     cout << "========================\n";
     cout << "Enter your choice: ";
 }
@@ -47,7 +47,7 @@ void menu()
         displayMenu();
         int choice;
         cin >> choice;
-        if (choice == 5)
+        if (choice == 0)
             break;
         if (choice < 1 || choice > 5)
         {
@@ -68,23 +68,45 @@ void menu()
             string file_name;
             cout << "Enter file name: ";
             cin >> file_name;
-            switch (choice)
+            int size;
+            ifstream infile(file_name);
+            bool file_exists = infile.is_open();
+            if (file_exists)
             {
-            case 1:
-                readItems(file_name, "bst");
-                break;
-            case 2:
-                readItems(file_name, "Min-Heap");
-                break;
-            case 3:
-                readItems(file_name, "Max-Heap");
-                break;
-            case 4:
-                readItems(file_name, "AVL");
-                break;
-            default:
-                cout << "Invalid choice. Try again.\n";
-                break;
+                string line;
+                getline(infile, line);
+                size = stoi(line);
+                for (int i = 0; i < size; i++)
+                {
+                    getline(infile, line);
+                    string name = line;
+                    getline(infile, line);
+                    string cat = line;
+                    getline(infile, line);
+                    int p = stoi(line);
+                    switch (choice)
+                    {
+                    case 1:
+                        bst.insert(Item(name, cat, p));
+                        break;
+                    case 2:
+                        minHeap.insert(Item(name, cat, p));
+                        break;
+                    case 3:
+                        maxHeap.insert(Item(name, cat, p));
+                        break;
+                    case 4:
+                        avl.insert(Item(name, cat, p));
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                infile.close();
+            }
+            else
+            {
+                cout << "ERROR,File not Found" << endl;
             }
         }
         else if (c == 2)
@@ -122,7 +144,7 @@ void menu()
             displayOperationsMenu();
             int op;
             cin >> op;
-            if (op == 8)
+            if (op == 0)
                 break;
             string name, category;
             int price;
