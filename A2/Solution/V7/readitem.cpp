@@ -1,14 +1,15 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <vector>
 #include "AVL.cpp"
 #include "BST.cpp"
 #include "Item.cpp"
 #include "MaxHeap.cpp"
 #include "MinHeap.cpp"
 
-using namespace std;
+void print(vector<Item> v) {
+    for (int i=0; i < sizeof(v); i++) {
+        cout << "Name: " << v[i].itemname << '\n' << "Category: " << v[i].category << '\n' << "Price: " << v[i].price << "\n====================\n";
+    }
+}
+
 void readItems(string file_name, string tree)
 {
     vector<Item> v;
@@ -41,6 +42,7 @@ void readItems(string file_name, string tree)
     else
     {
         cout << "ERROR,File not Found" << endl;
+        return;
     }
 
     if (Tree == "bst")
@@ -71,6 +73,7 @@ void readItems(string file_name, string tree)
             avl.insert(element);
         }
     }
-    else
+    else {
         cout << "try again" << endl;
+    }
 }
