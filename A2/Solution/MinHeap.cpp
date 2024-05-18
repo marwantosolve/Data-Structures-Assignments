@@ -26,17 +26,16 @@ void MinHeap::insert(const Item& val) {
   heapifyUp(heap.size() - 1);
 }
 void MinHeap::remove(const std::string& itemName) {
-    auto it = std::find_if(heap.begin(), heap.end(), [&](const Item& item) {
-        return item.itemname == itemName;
-    });
+  auto it = std::find_if(heap.begin(), heap.end(), [&](const Item& item) {
+    return item.itemname == itemName;
+  });
 
-    if (it != heap.end()) {
-        *it = heap.back(); // Replace the item with the last item
-        heap.pop_back();   // Remove the last item
-        heapifyDown(std::distance(heap.begin(), it)); // Heapify down from the position of the replaced item
-    }
+  if (it != heap.end()) {
+    *it = heap.back();
+    heap.pop_back();
+    heapifyDown(std::distance(heap.begin(), it));
+  }
 }
-
 
 Item MinHeap::extractMin() {
   if (heap.empty()) throw std::runtime_error("Heap is empty");
@@ -53,41 +52,37 @@ void MinHeap::print() const {
   }
 }
 void MinHeap::printItemsByNameAsc() const {
-    vector<Item> items = heap; // Copy the heap
-    sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-        return a.itemname < b.itemname;
-    });
-    for (const auto& item : items) {
-        item.print();
-    }
+  vector<Item> items = heap;
+  sort(items.begin(), items.end(),
+       [](const Item& a, const Item& b) { return a.itemname < b.itemname; });
+  for (const auto& item : items) {
+    item.print();
+  }
 }
 
 void MinHeap::printItemsByNameDesc() const {
-    vector<Item> items = heap; // Copy the heap
-    sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-        return a.itemname > b.itemname;
-    });
-    for (const auto& item : items) {
-        item.print();
-    }
+  vector<Item> items = heap;
+  sort(items.begin(), items.end(),
+       [](const Item& a, const Item& b) { return a.itemname > b.itemname; });
+  for (const auto& item : items) {
+    item.print();
+  }
 }
 
 void MinHeap::printItemsByPriceAsc() const {
-    vector<Item> items = heap; // Copy the heap
-    sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-        return a.price < b.price;
-    });
-    for (const auto& item : items) {
-        item.print();
-    }
+  vector<Item> items = heap;
+  sort(items.begin(), items.end(),
+       [](const Item& a, const Item& b) { return a.price < b.price; });
+  for (const auto& item : items) {
+    item.print();
+  }
 }
 
 void MinHeap::printItemsByPriceDesc() const {
-    vector<Item> items = heap; // Copy the heap
-    sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
-        return a.price > b.price;
-    });
-    for (const auto& item : items) {
-        item.print();
-    }
+  vector<Item> items = heap;
+  sort(items.begin(), items.end(),
+       [](const Item& a, const Item& b) { return a.price > b.price; });
+  for (const auto& item : items) {
+    item.print();
+  }
 }

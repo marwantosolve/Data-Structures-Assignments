@@ -1,14 +1,13 @@
 #include "Item.h"
 
-class MaxHeap
-{
-private:
+class MaxHeap {
+ private:
   vector<Item> heap;
 
   void heapifyUp(int index);
   void heapifyDown(int index);
 
-public:
+ public:
   void insert(const Item &val);
   void remove(const string &itemName);
   Item extractMax();

@@ -1,6 +1,5 @@
 #include "Menu.cpp"
-int main()
-{
-        menu();
-    return 0;
+int main() {
+  menu();
+  return 0;
 }
