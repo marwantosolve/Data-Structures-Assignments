@@ -11,7 +11,6 @@ void print(vector<Item> v) {
          << "Price: " << v[i].price << "\n====================\n";
   }
 }
-
 void readItems(string file_name, string tree) {
   vector<Item> v;
   int size;

@@ -6,7 +6,6 @@ void MaxHeap::heapifyUp(int index) {
     index = (index - 1) / 2;
   }
 }
-
 void MaxHeap::heapifyDown(int index) {
   int left = 2 * index + 1;
   int right = 2 * index + 2;
@@ -24,6 +23,7 @@ void MaxHeap::insert(const Item &val) {
   heap.push_back(val);
   heapifyUp(heap.size() - 1);
 }
+
 void MaxHeap::remove(const std::string &itemName) {
   auto it = std::find_if(heap.begin(), heap.end(), [&](const Item &item) {
     return item.itemname == itemName;
@@ -37,7 +37,6 @@ void MaxHeap::remove(const std::string &itemName) {
     heapifyDown(index);
   }
 }
-
 Item MaxHeap::extractMax() {
   if (heap.empty()) throw std::runtime_error("Heap is empty");
   Item maxItem = heap.front();
@@ -46,7 +45,6 @@ Item MaxHeap::extractMax() {
   heapifyDown(0);
   return maxItem;
 }
-
 void MaxHeap::print() const {
   for (const auto &it : heap) {
     it.print();
@@ -60,7 +58,6 @@ void MaxHeap::printItemsByNameAsc() const {
     item.print();
   }
 }
-
 void MaxHeap::printItemsByNameDesc() const {
   vector<Item> items = heap;
   sort(items.begin(), items.end(),
@@ -69,7 +66,6 @@ void MaxHeap::printItemsByNameDesc() const {
     item.print();
   }
 }
-
 void MaxHeap::printItemsByPriceAsc() const {
   vector<Item> items = heap;
   sort(items.begin(), items.end(),
@@ -78,7 +74,6 @@ void MaxHeap::printItemsByPriceAsc() const {
     item.print();
   }
 }
-
 void MaxHeap::printItemsByPriceDesc() const {
   vector<Item> items = heap;
   sort(items.begin(), items.end(),

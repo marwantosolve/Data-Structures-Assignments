@@ -1,11 +1,8 @@
 #include "BST.h"
 
 BSTNode::BSTNode(Item val) : data(val), left(nullptr), right(nullptr) {}
-
 BST::BST() : root(nullptr) {}
-
 void BST::insert(const Item &val) { insert(root, val); }
-
 void BST::inOrder() const {
   vector<Item> items;
   inOrder(root, items);
@@ -13,7 +10,6 @@ void BST::inOrder() const {
     item.print();
   }
 }
-
 void BST::insert(BSTNode *&node, const Item &val) {
   if (!node) {
     node = new BSTNode(val);
@@ -24,7 +20,6 @@ void BST::insert(BSTNode *&node, const Item &val) {
   }
 }
 void BST::remove(const string &itemName) { root = remove(root, itemName); }
-
 BSTNode *BST::remove(BSTNode *&node, const string &itemName) {
   if (!node) return nullptr;
   if (itemName < node->data.itemname) {
@@ -48,14 +43,12 @@ BSTNode *BST::remove(BSTNode *&node, const string &itemName) {
   }
   return node;
 }
-
 BSTNode *BST::findMin(BSTNode *node) const {
   while (node && node->left) {
     node = node->left;
   }
   return node;
 }
-
 void BST::inOrder(BSTNode *node, vector<Item> &items) const {
   if (node) {
     inOrder(node->left, items);
@@ -63,13 +56,11 @@ void BST::inOrder(BSTNode *node, vector<Item> &items) const {
     inOrder(node->right, items);
   }
 }
-
 vector<Item> BST::collectItems() const {
   vector<Item> items;
   inOrder(root, items);
   return items;
 }
-
 void BST::printItemsByNameAsc() const {
   vector<Item> items = collectItems();
   sort(items.begin(), items.end(),
@@ -78,7 +69,6 @@ void BST::printItemsByNameAsc() const {
     item.print();
   }
 }
-
 void BST::printItemsByNameDesc() const {
   vector<Item> items = collectItems();
   sort(items.begin(), items.end(),
@@ -87,7 +77,6 @@ void BST::printItemsByNameDesc() const {
     item.print();
   }
 }
-
 void BST::printItemsByPriceAsc() const {
   vector<Item> items = collectItems();
   sort(items.begin(), items.end(),
@@ -96,7 +85,6 @@ void BST::printItemsByPriceAsc() const {
     item.print();
   }
 }
-
 void BST::printItemsByPriceDesc() const {
   vector<Item> items = collectItems();
   sort(items.begin(), items.end(),
@@ -105,3 +93,4 @@ void BST::printItemsByPriceDesc() const {
     item.print();
   }
 }
+

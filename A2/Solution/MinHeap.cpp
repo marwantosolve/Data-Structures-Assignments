@@ -7,7 +7,6 @@ void MinHeap::heapifyUp(int index) {
     index = (index - 1) / 2;
   }
 }
-
 void MinHeap::heapifyDown(int index) {
   int left = 2 * index + 1;
   int right = 2 * index + 2;
@@ -20,7 +19,6 @@ void MinHeap::heapifyDown(int index) {
     heapifyDown(smallest);
   }
 }
-
 void MinHeap::insert(const Item& val) {
   heap.push_back(val);
   heapifyUp(heap.size() - 1);
@@ -36,7 +34,6 @@ void MinHeap::remove(const std::string& itemName) {
     heapifyDown(std::distance(heap.begin(), it));
   }
 }
-
 Item MinHeap::extractMin() {
   if (heap.empty()) throw std::runtime_error("Heap is empty");
   Item minItem = heap.front();
@@ -45,7 +42,6 @@ Item MinHeap::extractMin() {
   heapifyDown(0);
   return minItem;
 }
-
 void MinHeap::print() const {
   for (const auto& it : heap) {
     it.print();
@@ -59,7 +55,6 @@ void MinHeap::printItemsByNameAsc() const {
     item.print();
   }
 }
-
 void MinHeap::printItemsByNameDesc() const {
   vector<Item> items = heap;
   sort(items.begin(), items.end(),
@@ -68,7 +63,6 @@ void MinHeap::printItemsByNameDesc() const {
     item.print();
   }
 }
-
 void MinHeap::printItemsByPriceAsc() const {
   vector<Item> items = heap;
   sort(items.begin(), items.end(),
@@ -77,7 +71,6 @@ void MinHeap::printItemsByPriceAsc() const {
     item.print();
   }
 }
-
 void MinHeap::printItemsByPriceDesc() const {
   vector<Item> items = heap;
   sort(items.begin(), items.end(),
